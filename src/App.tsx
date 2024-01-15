@@ -2,7 +2,7 @@ import { GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import { useNotificationProvider } from "@refinedev/antd";
+import { ThemedLayoutV2, useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
 import routerBindings, {
@@ -11,13 +11,14 @@ import routerBindings, {
 } from "@refinedev/react-router-v6";
 import dataProvider from "@refinedev/simple-rest";
 import { App as AntdApp } from "antd";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { AntdInferencer } from "@refinedev/inferencer/antd";
+
 import { ColorModeContextProvider } from "./contexts/color-mode";
 
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <AntdApp>
@@ -26,6 +27,15 @@ function App() {
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+                resources={[
+                  {
+                    name: "blog_posts",
+                    list: "/blog-posts",
+                    show: "/blog-posts/show/:id",
+                    create: "/blog-posts/create",
+                    edit: "/blog-posts/edit/:id",
+                  },
+                ]}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -34,7 +44,21 @@ function App() {
                 }}
               >
                 <Routes>
-                  <Route index element={<WelcomePage />} />
+                  <Route
+                    element={
+                      <ThemedLayoutV2>
+                        <Outlet />
+                      </ThemedLayoutV2>
+                    }
+                  >
+                    <Route index element={<WelcomePage />} />
+                    <Route path="blog-posts">
+                      <Route index element={<AntdInferencer />} />
+                      <Route path="show/:id" element={<AntdInferencer />} />
+                      <Route path="edit/:id" element={<AntdInferencer />} />
+                      <Route path="create" element={<AntdInferencer />} />
+                    </Route>
+                  </Route>
                 </Routes>
                 <RefineKbar />
                 <UnsavedChangesNotifier />
