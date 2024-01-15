@@ -7,6 +7,7 @@ import "@refinedev/antd/dist/reset.css";
 
 import routerBindings, {
   DocumentTitleHandler,
+  NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import dataProvider from "@refinedev/simple-rest";
@@ -51,24 +52,15 @@ function App() {
                       </ThemedLayoutV2>
                     }
                   >
-                    <Route index element={<WelcomePage />} />
+                    <Route
+                      index
+                      element={<NavigateToResource resource="blog_posts" />}
+                    />
                     <Route path="blog-posts">
-                      <Route
-                        index
-                        element={<AntdInferencer hideCodeViewerInProduction />}
-                      />
-                      <Route
-                        path="show/:id"
-                        element={<AntdInferencer hideCodeViewerInProduction />}
-                      />
-                      <Route
-                        path="edit/:id"
-                        element={<AntdInferencer hideCodeViewerInProduction />}
-                      />
-                      <Route
-                        path="create"
-                        element={<AntdInferencer hideCodeViewerInProduction />}
-                      />
+                      <Route index element={<AntdInferencer />} />
+                      <Route path="show/:id" element={<AntdInferencer />} />
+                      <Route path="edit/:id" element={<AntdInferencer />} />
+                      <Route path="create" element={<AntdInferencer />} />
                     </Route>
                   </Route>
                 </Routes>
