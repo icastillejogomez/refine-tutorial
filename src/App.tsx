@@ -53,10 +53,22 @@ function App() {
                   >
                     <Route index element={<WelcomePage />} />
                     <Route path="blog-posts">
-                      <Route index element={<AntdInferencer />} />
-                      <Route path="show/:id" element={<AntdInferencer />} />
-                      <Route path="edit/:id" element={<AntdInferencer />} />
-                      <Route path="create" element={<AntdInferencer />} />
+                      <Route
+                        index
+                        element={<AntdInferencer hideCodeViewerInProduction />}
+                      />
+                      <Route
+                        path="show/:id"
+                        element={<AntdInferencer hideCodeViewerInProduction />}
+                      />
+                      <Route
+                        path="edit/:id"
+                        element={<AntdInferencer hideCodeViewerInProduction />}
+                      />
+                      <Route
+                        path="create"
+                        element={<AntdInferencer hideCodeViewerInProduction />}
+                      />
                     </Route>
                   </Route>
                 </Routes>
